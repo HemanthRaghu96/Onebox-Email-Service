@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import { jwtDecode } from "jwt-decode";
 import Theme from "../components/Theme";
 import { FaChevronDown } from "react-icons/fa6";
+import LoadingPage from "../components/LoadingScreen";
 
 const Onebox = () => {
   const [currColor, setCurrColor] = useState<boolean>(true);
@@ -85,6 +86,7 @@ const Onebox = () => {
           </div>
         </div>
       </div>
+      <LoadingPage />
     </div>
   );
 };
