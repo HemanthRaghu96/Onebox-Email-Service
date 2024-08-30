@@ -65,7 +65,7 @@ const Login = () => {
       </div>
       <div className=" w-full h-[32px] p-[20px] px-[100px] gap-[10px] flex justify-center items-center border-[1px] border-[#25262B]  opacity-[0px]">
         <p className="w-[220px] h-[19px] gap-[0px] opacity-[0px] text-left text-[12px] font-sans leading-[18.6px] text-[#5C5F66]">
-          ©️ 2023 Reachinbox. All rights reserved.
+          ©️ 2024 Reachinbox. All rights reserved.
         </p>
       </div>
     </div>
