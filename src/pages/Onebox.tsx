@@ -7,9 +7,10 @@ import LoadingPage from "../components/LoadingScreen";
 import InboxHeader from "../components/InboxHeader";
 import InboxSearchBar from "../components/InboxSearchBar";
 import InboxEmailCard from "../components/InboxEmailCard";
-import { getMailList, getMailMessages } from "../hooks/hooks";
+import { deleteMailResponse, getMailList, getMailMessages } from "../hooks/hooks";
 import LeadAndActivity from "../components/LeadAndActivity";
 import OneboxReply from "../components/OneboxReply";
+import { DeleteModal } from "../components/DeleteModal";
 
 interface User {
   firstName: string;
@@ -27,6 +28,8 @@ const Onebox = () => {
   const [data, setData] = useState<Email[]>([]);
   const [singleMail, setSingleMail] = useState<any>({});
   const [showEmailDesktop, setShowEmailDesktop] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [render , setRender]= useState<Boolean>(false)
   let token: string = localStorage.getItem("reachinbox-auth") || "null";
 
   useEffect(() => {
@@ -49,6 +52,20 @@ const Onebox = () => {
     }
     fetchData();
   }, [token]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if(event.key === "d" || event.key === "D")
+      {
+        openModal();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isModalOpen]);
 
   let firstName = localStorage.getItem("reachinbox-auth-firstname");
   firstName = firstName ? JSON.parse(firstName) : "";
@@ -79,6 +96,22 @@ const Onebox = () => {
       .then((messages) => setSingleMail(messages))
       .catch((error) => console.error("Error:", error));
   };
+  const openModal = (): void => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = (): void => {
+    setIsModalOpen(false);
+  };
+  const deleteEmail =()=>{
+    const id:number = singleMail[0].threadId
+    deleteMailResponse(id).then(()=>{
+        alert(`The ${id} has been Deleted Successful`);
+        setRender(!render)
+        closeModal()
+    }).catch(() => alert("Error Please try again"))
+    
+}
   return (
     <div
       className={`w-full h-full flex ${currColor ? "bg-black" : "bg-white"} ${
@@ -182,7 +215,25 @@ const Onebox = () => {
           <LeadAndActivity currColor={currColor}/>
         </div>
       )}
+      <div>
+                <DeleteModal isOpen={isModalOpen} onClose={closeModal}>
+                    <div className='w-[440px] h-[240px] text-white '>
+                        <div className=' h-full '>
+                            <h1 className='text-[24px] font-bold mt-8 text-center'>Are you Sure ?</h1>
+                            <p className='mt-8 text-[#E8E8E8] text-center'>Your selected email will be deleted.</p>
+                            <div className='mt-8 flex justify-center gap-5 '>
+                                <button className='w-[120px] h-12 bg-[#25262B] rounded-sm' onClick={closeModal}>Cancel</button>
+                                <button className='w-[140px] h-12 rounded-sm' onClick={deleteEmail} style={{
+    background: 'linear-gradient(91.73deg, #FA5252 -2.99%, #A91919 95.8%)'
+  }}>Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </DeleteModal>
+
+            </div>
     </div>
+    
   );
 };
 
