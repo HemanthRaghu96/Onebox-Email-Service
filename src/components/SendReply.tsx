@@ -14,7 +14,7 @@ import { IoIosArrowForward } from "react-icons/io";
 
 interface sendReplyProps {
   handleCancel: MouseEventHandler<HTMLDivElement>;
-  currColor: Boolean;
+  currColor: Boolean; 
   singleMail: any;
 }
 
@@ -25,6 +25,8 @@ interface initalstateType {
   fromName: string;
   subject: string;
   body: string;
+  references: string[];
+  inReplyTo: string;
 }
 
 const initalState: initalstateType = {
@@ -34,7 +36,10 @@ const initalState: initalstateType = {
   fromName: "",
   subject: "",
   body: "",
+  references: [],
+  inReplyTo: "",
 };
+
 const SendReply: React.FC<sendReplyProps> = ({
   currColor,
   handleCancel,
@@ -46,7 +51,6 @@ const SendReply: React.FC<sendReplyProps> = ({
   useEffect(() => {
     token = localStorage.getItem("reachinbox-auth");
     token = token ? JSON.parse(token) : "";
-    console.log("token :-", token);
 
     setFormData({
       ...formData,
@@ -54,18 +58,20 @@ const SendReply: React.FC<sendReplyProps> = ({
       fromName: singleMail.fromEmail,
       to: singleMail.toEmail,
       from: singleMail.fromEmail,
+      references: [singleMail.references],  
+      inReplyTo: singleMail.inReplyTo,
     });
   }, []);
 
-  const handlesubmit = () => {
-    console.log(formData, "data");
-    postMailMessages(singleMail.threadId, formData)
-      .then(() => {
-        alert("Reply has been Sended");
-      })
-      .catch((err) => console.log(err));
+  const handlesubmit = async () => {
+    try {
+      console.log(formData, "data");
+      await postMailMessages(singleMail.threadId, formData);
+      alert("Reply has been sent");
+    } catch (err) {
+      console.error(err);
+    }
   };
-
   return (
     <div className="flex flex-col w-full h-full ">
       <div>

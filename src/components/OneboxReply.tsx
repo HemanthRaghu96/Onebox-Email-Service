@@ -24,7 +24,6 @@ const OneboxReply: React.FC<replyProps> = ({ currColor, singleMail }) => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [showReply]);
-console.log(singleMail)
   return (
     <div className="w-[900px] h-[600px] border border-gray-700 flex justify-between flex-col mt-16">
       <div className=" relative flex justify-between flex-col ">

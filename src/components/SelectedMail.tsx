@@ -40,7 +40,6 @@ const SelectedMail: React.FC<SingleProps> = ({
   const formattedsentdDate = `${sentDate.getDate()} ${
     monthNames[sentDate.getMonth()]
   } `;
-  console.log(body)
   return (
     <div className="flex flex-col mx-auto mt-4">
       <div className="relative">
