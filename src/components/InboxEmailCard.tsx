@@ -4,12 +4,12 @@ type inboxProps ={
     currColor:Boolean;
     fromEmail:string;
     subject:string;
-    createdAt:string; 
+    sentAt: string;
     handleChangeEmail:any,
     threadId:number
 }
-const InboxEmailCard:React.FC<inboxProps> = ({currColor,threadId,fromEmail,subject,createdAt,handleChangeEmail}) => {
-    const date = new Date(createdAt);
+const InboxEmailCard:React.FC<inboxProps> = ({currColor,threadId,fromEmail,subject,sentAt,handleChangeEmail}) => {
+    const date = new Date(sentAt);
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const formattedDate = ` ${monthNames[date.getMonth()]} ${date.getDate()}`;
   return (

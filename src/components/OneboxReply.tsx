@@ -1,6 +1,7 @@
 import { IoChevronDown } from "react-icons/io5";
 import { MdOutlineReply } from "react-icons/md";
 import React, { useEffect, useState } from "react";
+import SelectedMail from "./SelectedMail";
 
 interface replyProps {
   currColor: Boolean;
@@ -22,17 +23,17 @@ const OneboxReply: React.FC<replyProps> = ({ currColor, singleMail }) => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [showReply]);
-
+console.log(singleMail)
   return (
     <div className="w-[900px] h-[600px] border border-gray-700 flex justify-between flex-col mt-16">
       <div className=" relative flex justify-between flex-col ">
         <div className="flex h-[70px] border border-gray-700 py-3 pl-4">
           <div className="text-left w-full">
             <h1 className="text-[14px]">
-              {singleMail && singleMail[0]?.fromName}
+              {singleMail && singleMail[singleMail.length - 1]?.fromName}
             </h1>
             <p className="text-[12px] text-gray-400">
-              {singleMail && singleMail[0]?.fromEmail}
+              {singleMail && singleMail[singleMail.length - 1]?.fromEmail}
             </p>
           </div>
           <div className="flex justify-end mr-6  gap-4 h-8 my-2 w-full text-right">
@@ -62,11 +63,24 @@ const OneboxReply: React.FC<replyProps> = ({ currColor, singleMail }) => {
             </div>
           </div>
         </div>
+        <div className="py-3 pl-4 ">
+          {singleMail?.length > 0 &&
+            singleMail?.map((item: any) => {
+              return (
+                <SelectedMail currColor={currColor} {...item} key={item.id} />
+              );
+            })}
+         
+        </div>
       </div>
 
-      <div className="w-[100px] h-10    ml-4 mb-3 rounded gap-1 flex justify-center items-center"  style={{
-    background: 'linear-gradient(91.73deg, #4B63DD -2.99%, rgba(5, 36, 191, 0.99) 95.8%)',
-  }}>
+      <div
+        className="w-[100px] h-10    ml-4 mb-3 rounded gap-1 flex justify-center items-center"
+        style={{
+          background:
+            "linear-gradient(91.73deg, #4B63DD -2.99%, rgba(5, 36, 191, 0.99) 95.8%)",
+        }}
+      >
         <MdOutlineReply color="white" />
         <button className="text-white" onClick={() => setShowReply(!showReply)}>
           Reply
