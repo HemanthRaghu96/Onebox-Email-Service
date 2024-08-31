@@ -6,16 +6,31 @@ import { FaChevronDown } from "react-icons/fa6";
 import LoadingPage from "../components/LoadingScreen";
 import InboxHeader from "../components/InboxHeader";
 import InboxSearchBar from "../components/InboxSearchBar";
+import InboxEmailCard from "../components/InboxEmailCard";
+import { getMailList, getMailMessages } from "../hooks/hooks";
+
+interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+interface Email {
+  id: number;
+  threadId: number;
+}
 
 const Onebox = () => {
   const [currColor, setCurrColor] = useState<boolean>(true);
+  const [data, setData] = useState<Email[]>([]);
+  const [singleMail, setSingleMail] = useState<any>({});
   const [showEmailDesktop, setShowEmailDesktop] = useState(0);
   let token: string = localStorage.getItem("reachinbox-auth") || "null";
 
   useEffect(() => {
     token = location.search.split("?token=")?.join("");
     if (token) {
-      let ParseData = jwtDecode(token);
+      let ParseData = jwtDecode<User>(token);
       localStorage.setItem("reachinbox-auth", JSON.stringify(token));
       localStorage.setItem(
         "reachinbox-auth-firstname",
@@ -30,6 +45,7 @@ const Onebox = () => {
         JSON.stringify((ParseData as any).user.email)
       );
     }
+    fetchData();
   }, [token]);
 
   let firstName = localStorage.getItem("reachinbox-auth-firstname");
@@ -40,6 +56,27 @@ const Onebox = () => {
     ? firstName[0] + (lastName ? lastName[0] : "")
     : "";
   const handleChange = (index: number) => setShowEmailDesktop(index);
+  const handleChangeEmail = (id: number) => {
+    getMailMessages(id)
+      .then((messages) => {
+        setSingleMail(messages);
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+  const fetchData = () => {
+    getMailList(token)
+      .then((res) => {
+        setData(res);
+        if (res?.length > 0) {
+          setSingleMail(res[0]);
+          const id: number = res[0]?.threadId;
+          if (id !== undefined) return getMailMessages(id);
+          else console.log("error id not found");
+        } else console.log("Email not Found");
+      })
+      .then((messages) => setSingleMail(messages))
+      .catch((error) => console.error("Error:", error));
+  };
   return (
     <div
       className={`w-full h-full flex ${currColor ? "bg-black" : "bg-white"} ${
@@ -111,15 +148,33 @@ const Onebox = () => {
                 >
                   25
                 </p>
-                <p className="w-[91px] h-[20px] text-[14px] font-semibold leading-[20px] text-left">New Replies</p>
+                <p className="w-[91px] h-[20px] text-[14px] font-semibold leading-[20px] text-left">
+                  New Replies
+                </p>
               </div>
               <div className=" w-[79px] h-[20px] gap-[16px] opacity-[0px] flex items-center">
-                <p className="w-[53px] h-[20px] gap-[0px] opacity-[0px] text-[14px] font-semibold leading-[20px] text-left">Newest</p>
+                <p className="w-[53px] h-[20px] gap-[0px] opacity-[0px] text-[14px] font-semibold leading-[20px] text-left">
+                  Newest
+                </p>
                 <FaChevronDown />
               </div>
             </div>
             <hr className="mt-[10px]" />
-            
+            <div className=" text-left">
+              {data?.length > 0 &&
+                data.map((item: any) => {
+                  return (
+                    <div key={item.id}>
+                      <InboxEmailCard
+                        currColor={currColor}
+                        {...item}
+                        handleChangeEmail={handleChangeEmail}
+                      />
+                      <hr />
+                    </div>
+                  );
+                })}
+            </div>
           </div>
         </div>
       )}
