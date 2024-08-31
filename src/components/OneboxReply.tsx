@@ -2,6 +2,7 @@ import { IoChevronDown } from "react-icons/io5";
 import { MdOutlineReply } from "react-icons/md";
 import React, { useEffect, useState } from "react";
 import SelectedMail from "./SelectedMail";
+import SendReply from "./SendReply";
 
 interface replyProps {
   currColor: Boolean;
@@ -72,6 +73,11 @@ console.log(singleMail)
             })}
          
         </div>
+        {
+                showReply &&  <div className={`absolute mt-[134px] w-[768px] ml-4 rounded-2xl  z-10  overflow-hidden  h-[450px] ${currColor ? 'bg-[#141517]': 'bg-white'}  border border-gray-700`}>
+                    <SendReply currColor ={currColor} singleMail ={singleMail[0]} handleCancel ={()=>setShowReply(!showReply)}/>
+                </div>
+            }
       </div>
 
       <div
