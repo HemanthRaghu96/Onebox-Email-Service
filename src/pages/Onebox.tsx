@@ -9,6 +9,7 @@ import InboxSearchBar from "../components/InboxSearchBar";
 import InboxEmailCard from "../components/InboxEmailCard";
 import { getMailList, getMailMessages } from "../hooks/hooks";
 import LeadAndActivity from "../components/LeadAndActivity";
+import OneboxReply from "../components/OneboxReply";
 
 interface User {
   firstName: string;
@@ -177,6 +178,7 @@ const Onebox = () => {
                 })}
             </div>
           </div>
+          <OneboxReply currColor={currColor} singleMail = {singleMail}/>
           <LeadAndActivity currColor={currColor}/>
         </div>
       )}
