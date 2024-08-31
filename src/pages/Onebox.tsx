@@ -5,6 +5,7 @@ import Theme from "../components/Theme";
 import { FaChevronDown } from "react-icons/fa6";
 import LoadingPage from "../components/LoadingScreen";
 import InboxHeader from "../components/InboxHeader";
+import InboxSearchBar from "../components/InboxSearchBar";
 
 const Onebox = () => {
   const [currColor, setCurrColor] = useState<boolean>(true);
@@ -85,7 +86,7 @@ const Onebox = () => {
             </div>
           </div>
         </div>
-      </div>  
+      </div>
       {showEmailDesktop != 5 ? (
         <LoadingPage />
       ) : (
@@ -94,11 +95,13 @@ const Onebox = () => {
             currColor ? "border-gray-700" : "border-gray-300"
           } `}
         >
-          <div  className="w-[278px]  absolute top-[67px] left-[71px] gap-[8px] opacity-[0px] ">
+          <div className="w-[278px]  absolute top-[67px] left-[71px] gap-[8px] opacity-[0px] ">
             <div className="flex justify-between mt-4 items-center">
               <InboxHeader currColor={currColor} />
             </div>
-            
+            <div className="ml-[14px] mt-7 h-11 ">
+              <InboxSearchBar currColor={currColor} />
+            </div>
           </div>
         </div>
       )}
