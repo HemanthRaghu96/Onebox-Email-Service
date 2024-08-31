@@ -102,6 +102,24 @@ const Onebox = () => {
             <div className="ml-[14px] mt-7 h-11 ">
               <InboxSearchBar currColor={currColor} />
             </div>
+            <div className="w-[275px] h-[32px]  p-[3px] pt-[3px] pr-[8px] pb-[3px] pl-[8px] gap-[16px] opacity-[0px] flex justify-between  text-[14px]">
+              <div className=" w-[129px] h-[26px] flex  items-center gap-[16px] ">
+                <p
+                  className={`text-[#5C7CFA] w-[34px] h-[26px] gap-[8px] rounded-2xl text-center p-[1px] text-[14px] font-semibold leading-[20px] ${
+                    currColor ? "bg-[#25262B]" : "bg-[#e1e7ee]"
+                  }`}
+                >
+                  25
+                </p>
+                <p className="w-[91px] h-[20px] text-[14px] font-semibold leading-[20px] text-left">New Replies</p>
+              </div>
+              <div className=" w-[79px] h-[20px] gap-[16px] opacity-[0px] flex items-center">
+                <p className="w-[53px] h-[20px] gap-[0px] opacity-[0px] text-[14px] font-semibold leading-[20px] text-left">Newest</p>
+                <FaChevronDown />
+              </div>
+            </div>
+            <hr className="mt-[10px]" />
+            
           </div>
         </div>
       )}
