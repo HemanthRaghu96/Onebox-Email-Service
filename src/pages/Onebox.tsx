@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import Theme from "../components/Theme";
 import { FaChevronDown } from "react-icons/fa6";
 import LoadingPage from "../components/LoadingScreen";
+import InboxHeader from "../components/InboxHeader";
 
 const Onebox = () => {
   const [currColor, setCurrColor] = useState<boolean>(true);
@@ -38,12 +39,11 @@ const Onebox = () => {
     ? firstName[0] + (lastName ? lastName[0] : "")
     : "";
   const handleChange = (index: number) => setShowEmailDesktop(index);
-
   return (
     <div
       className={`w-full h-full flex ${currColor ? "bg-black" : "bg-white"} ${
         currColor ? "text-white" : "text-black"
-      } overflow-hidden`}
+      } `}
     >
       <div className="h-screen">
         <Sidebar
@@ -85,8 +85,23 @@ const Onebox = () => {
             </div>
           </div>
         </div>
-      </div>
-      <LoadingPage />
+      </div>  
+      {showEmailDesktop != 5 ? (
+        <LoadingPage />
+      ) : (
+        <div
+          className={`flex border ${
+            currColor ? "border-gray-700" : "border-gray-300"
+          } `}
+        >
+          <div  className="w-[278px]  absolute top-[67px] left-[71px] gap-[8px] opacity-[0px] ">
+            <div className="flex justify-between mt-4 items-center">
+              <InboxHeader currColor={currColor} />
+            </div>
+            
+          </div>
+        </div>
+      )}
     </div>
   );
 };
