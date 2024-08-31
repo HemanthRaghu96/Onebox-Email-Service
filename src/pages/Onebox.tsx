@@ -8,6 +8,7 @@ import InboxHeader from "../components/InboxHeader";
 import InboxSearchBar from "../components/InboxSearchBar";
 import InboxEmailCard from "../components/InboxEmailCard";
 import { getMailList, getMailMessages } from "../hooks/hooks";
+import LeadAndActivity from "../components/LeadAndActivity";
 
 interface User {
   firstName: string;
@@ -176,6 +177,7 @@ const Onebox = () => {
                 })}
             </div>
           </div>
+          <LeadAndActivity currColor={currColor}/>
         </div>
       )}
     </div>
